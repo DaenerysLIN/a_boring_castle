@@ -4,13 +4,53 @@ import java.util.HashMap;
 import java.util.Scanner;
 
 public class Game {
+	
+	private class Handler {
+		
+		public void doCmd(String word){
+			
+		}
+		
+		public boolean isBye(){
+			return false;
+		}
+		
+	}
+	
+	private class HandlerBye extends Handler {
+		
+		public boolean isBye(){
+			return true;
+		}
+		
+	}
+	
+	private class HandlerGo extends Handler {
+		
+		@Override
+		public void doCmd(String word) {
+			goRoom(word);
+		}
+	}
+	
+	private class HandlerHelp extends Handler {
+		
+		@Override
+		public void doCmd(String word) {
+			System.out.println("迷路了吗？你可以做的命令有：go bye help");
+			System.out.println("如：\tgo east");
+		}
+		
+	}
+	
+	
 	private Room currentRoom;
 	private HashMap<String, Handler> handlers = new HashMap<String, Handler>();
 
 	public Game() {
-		handlers.put("go", new HandlerGo(this));
-		handlers.put("bye", new HandlerBye(this));
-		handlers.put("help", new HandlerHelp(this));
+		handlers.put("go", new HandlerGo());
+		handlers.put("bye", new HandlerBye());
+		handlers.put("help", new HandlerHelp());
 		createRooms();
 	}
 
